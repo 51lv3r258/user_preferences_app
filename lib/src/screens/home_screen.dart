@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../shared_preferences/user_preferences.dart';
 import '../widgets/menu_widget.dart';
 
 class HomeScreen extends StatelessWidget {
+  static final UserPreferences preferences = UserPreferences();
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -13,13 +15,13 @@ class HomeScreen extends StatelessWidget {
       ),
       drawer: const MenuWidget(),
       body: Column(
-        children: const [
+        children: [
           Text('Color secundario'),
-          Divider(),
-          Text('Género'),
-          Divider(),
+          const Divider(),
+          Text('Género : ${preferences.gender}'),
+          const Divider(),
           Text('Nombre de usuario'),
-          Divider(),
+          const Divider(),
         ],
       ),
     );

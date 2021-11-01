@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:user_preferences_app/src/shared_preferences/user_preferences.dart';
 
 import '../widgets/menu_widget.dart';
 
@@ -16,11 +18,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   late TextEditingController _textEditingController;
 
+  final _preferences = UserPreferences();
+
   @override
   void initState() {
+    _gender = _preferences.gender;
     _textEditingController = TextEditingController(text: _name);
     super.initState();
+  }
 
+  void _setSelectedRadio(int? value) {
+    _preferences.gender = value ?? 1;
+    _gender = _preferences.gender;
+    setState(() {});
   }
 
   @override
@@ -46,27 +56,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: const Text('Color Secundario'),
                 onChanged: (value) {
                   setState(() {
-                    _secondaryColor = value;
+                    _gender = value as int;
                   });
                 }),
+            // Masculino y Femenino
             RadioListTile(
                 value: 1,
                 title: const Text('Masculino'),
                 groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value as int;
-                  });
-                }),
+                onChanged: _setSelectedRadio),
             RadioListTile(
                 value: 2,
                 title: const Text('Femenino'),
                 groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value as int;
-                  });
-                }),
+                onChanged: _setSelectedRadio),
             const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
