@@ -9,18 +9,19 @@ void main() async {
   final UserPreferences preferences = UserPreferences();
   await preferences.initPreferences();
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final UserPreferences _preferences = UserPreferences();
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Preferencias',
       debugShowCheckedModeBanner: false,
-      initialRoute: 'home',
+      initialRoute: _preferences.lastPage,
       routes: {
         'home': (_) => const HomeScreen(),
         'settings': (_) => const SettingsScreen()

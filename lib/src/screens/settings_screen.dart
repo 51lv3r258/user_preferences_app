@@ -12,9 +12,9 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _secondaryColor = false;
-  int _gender = 1;
-  String _name = 'Pedro';
+  late bool _secondaryColor;
+  late int _gender;
+  // String _name = 'Pedro';
 
   late TextEditingController _textEditingController;
 
@@ -22,8 +22,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void initState() {
+    _preferences.lastPage = 'settings';
     _gender = _preferences.gender;
-    _textEditingController = TextEditingController(text: _name);
+    _secondaryColor = _preferences.secondaryColor;
+    _textEditingController = TextEditingController(text: _preferences.userName);
     super.initState();
   }
 
@@ -38,6 +40,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Ajustes'),
+          backgroundColor:
+              (_preferences.secondaryColor) ? Colors.teal : Colors.blue,
         ),
         drawer: const MenuWidget(),
         body: ListView(
@@ -56,7 +60,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: const Text('Color Secundario'),
                 onChanged: (value) {
                   setState(() {
-                    _gender = value as int;
+                    _preferences.secondaryColor = value;
+                    _secondaryColor = _preferences.secondaryColor;
                   });
                 }),
             // Masculino y Femenino
@@ -78,7 +83,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 decoration: const InputDecoration(
                     labelText: 'Nombre',
                     helperText: 'Nombre de la persona usando el teléfono'),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  _preferences.userName = value;
+                },
               ),
             )
           ],
